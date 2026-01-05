@@ -4,8 +4,15 @@ import { signIn } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Github } from "lucide-react"
+import { useMutation } from "@tanstack/react-query"
 
 export default function LoginPage() {
+  const {mutate, isPending} = useMutation({
+    mutationFn: () => signIn.social({
+      provider: "github"
+    })
+  })
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <Card className="w-full max-w-md">
@@ -18,9 +25,8 @@ export default function LoginPage() {
         <CardContent>
           <Button 
             className="w-full" 
-            onClick={async () => {
-              await signIn()
-            }}
+            onClick={() => mutate()}
+            disabled={isPending}
           >
             <Github className="mr-2 h-4 w-4" />
             Sign in with GitHub

@@ -1,13 +1,15 @@
-import { ComponentExample } from "@/components/component-example";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
-const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
-})
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
-console.log(session);
-
-return <ComponentExample />;
+  if (!session) {
+    redirect("/login");
+  } else {
+    redirect("/dashboard");
+  }
 }

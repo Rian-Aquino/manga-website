@@ -1,13 +1,5 @@
-import { createAuthClient } from "better-auth/client"
+import { createAuthClient } from "better-auth/react"
 
-const authClient =  createAuthClient()
+export const authClient =  createAuthClient()
 
-export const signIn = async () => {
-    const data = await authClient.signIn.social({
-        provider: "github"
-    }).catch((error) => {
-        console.log(error);
-    });
-
-    console.log(data);
-}
+export const { useSession, signIn, signOut } = authClient
